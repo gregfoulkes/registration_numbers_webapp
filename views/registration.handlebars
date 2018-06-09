@@ -15,6 +15,7 @@
       <form class="" action="/reg" method="post">
 
       <select onchange="filterBy(this)" type='submit' class="regSelectTwo" name="regSelect">
+          <option class="regSelectTwo "  name='town'>Select a Town:</option>
           <option class="regSelectTwo"  name='town' value="All">All</option>
           <option class="regSelectTwo"  name='town' value="CA ">Cape Town</option>
           <option class="regSelectTwo"  name='town' value="CY ">Bellville</option>
@@ -33,6 +34,7 @@
       {{#each regPlate}}
       <li class='displayRegClassList '>
         {{this}}
+        {{filteredReg}}
       </li>
       {{/each}}
 
@@ -48,6 +50,6 @@
   <script type="text/javascript">
     function filterBy(elem){
       var  tag = elem.value
-      location.href = 'filter/' + tag
+      location.href = '/filter/' + tag
     }
   </script>

@@ -28,7 +28,7 @@ module.exports = function(storage) {
   }
 
   function filterRegBy(town) {
-
+  //  var allReg = pool.query('select reg from regNum')
     var regNumbers = Object.keys(regMap);
 
     if (town === 'All') {

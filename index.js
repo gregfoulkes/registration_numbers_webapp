@@ -76,13 +76,13 @@ app.post('/reg', function(req, res){
 
 });
 
-app.get('filter/:tag', function(req, res){
+app.get('/filter/:tag', function(req, res){
   let filteredReg = registration.filterReg(req.params.tag);
   console.log(filteredReg)
-  res.render('registration', {filteredReg})
+  res.render('registration', {regPlate:filteredReg})
 });
 
-// app.get('/filter/filter/:tag', function(req, res){
+// app.get('/filter/:tag', function(req, res){
 //   let filteredReg = req.params.tag;
 //   res.redirect('/filter/' +filteredReg)
 // });
