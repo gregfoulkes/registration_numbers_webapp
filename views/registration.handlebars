@@ -1,0 +1,53 @@
+
+  <div class="handleBars">
+    <div class="heading center ">
+      <h4>Registration Numbers</h4>
+      <h4>This Widget Uses Handlebars</h4>
+
+    </div>
+
+    <div class="regNumInput center">
+      <h6>Enter a Registration Number:</h6>
+
+      <div class="alertTwo">
+
+      </div>
+      <form class="" action="/reg" method="post">
+
+      <select onchange="filterBy(this)" type='submit' class="regSelectTwo" name="regSelect">
+          <option class="regSelectTwo"  name='town' value="All">All</option>
+          <option class="regSelectTwo"  name='town' value="CA ">Cape Town</option>
+          <option class="regSelectTwo"  name='town' value="CY ">Bellville</option>
+          <option class="regSelectTwo"  name='town' value="CL ">Stellenbosch</option>
+          <option class="regSelectTwo"  name='town' value="CAW ">George</option>
+
+        </select>
+
+      <input class='regTextandNumTwo' name="regInput" value="">
+
+      <button class="addRegButtonTwo" type="submit" name="button">Add</button>
+
+    </div>
+    <div class="displayRegClass center">
+
+      {{#each regPlate}}
+      <li class='displayRegClassList '>
+        {{this}}
+      </li>
+      {{/each}}
+
+    </div>
+    <div class="clearButtonTwo center">
+      <button class="clearRegButton" type="button" name="button">Clear</button>
+
+    </div>
+  </form>
+
+  </div>
+
+  <script type="text/javascript">
+    function filterBy(elem){
+      var  tag = elem.value
+      location.href = 'filter/' + tag
+    }
+  </script>
