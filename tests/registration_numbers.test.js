@@ -52,7 +52,7 @@ describe('Add registration numbers', function() {
   it('Should return false if registration number from anywhere else',async function() {
     var registration = await  Reg(pool);
 
-     assert.equal(await registration.addRegistration('CZ 1234'), undefined)
+     assert.equal(await registration.addRegistration('CZ 1234'), false)
   });
 
   it('Should return a map with two added registrations from CJ, CY',async function() {
@@ -72,7 +72,7 @@ describe('Add registration numbers', function() {
     await registration.addRegistration('CY 5432')
 
     await registration.deleteReg()
-    await registration.deleteTowns()
+  //  await registration.deleteTowns()
      assert.deepEqual(await registration.mapReg(), [])
   });
 

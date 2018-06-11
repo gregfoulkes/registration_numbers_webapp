@@ -30,15 +30,16 @@ module.exports = function(pool) {
 
               return true;
             }
-            return false;
           }
         }
+        return false;
       }
     }
 
       async function filterRegBy(town) {
+
         var regNumbers = await pool.query('select reg from reg_numbers')
-        var list = []
+
         if (town === 'All') {
           return regNumbers.rows
         }
@@ -63,17 +64,12 @@ module.exports = function(pool) {
         return result.rows
       }
 
-      async function deleteTownsData() {
-        var result = await pool.query('delete from reg_numbers')
-        return result.rows
-      }
-
 
       return {
         mapReg: registrationMap,
         addRegistration: addRegistrationNumbers,
         filterReg: filterRegBy,
         deleteReg: deleteRegNumbers,
-        deleteTowns: deleteTownsData
+      //  deleteTowns: deleteTownsData
       }
     }
