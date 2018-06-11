@@ -1,60 +1,79 @@
-module.exports = function(storage) {
+module.exports = function(pool) {
 
-  var regMap = {};
+    var regMap = {};
 
-  if (storage) {
-    for (var i = 0; i < storage.length; i++) {
-      var regNumber = storage[i];
-      regMap[regNumber] = 0
+    if (pool) {
+      for (var i = 0; i < pool.length; i++) {
+        var regNumber = pool[i];
+        regMap[regNumber] = 0
+      }
     }
-  }
 
-  function addRegistrationNumbers(reg) {
+    async function addRegistrationNumbers(regNumber) {
 
-    var regList = ['CA ', 'CY ', 'CL ', 'CAW ']
+      var regList = ['CA ', 'CY ', 'CL ', 'CAW ', 'CJ']
 
-    if (reg != '') {
-      if (regMap[reg] === undefined) {
+      let townTag = regNumber.substring(0, 2).trim();
+
+      if (regNumber != '') {
+
         for (var i = 0; i < regList.length; i++) {
-          if (reg.startsWith(regList[i])) {
+          if (regNumber.startsWith(regList[i])) {
 
-            regMap[reg] = 0;
-            return true;
+            let result = await pool.query('SELECT * FROM reg_numbers WHERE reg = $1', [regNumber])
+
+            if (result.rowCount === 0) {
+
+              let townID = await pool.query('SELECT id FROM towns WHERE town = $1', [townTag]);
+
+              result = await pool.query('INSERT INTO reg_numbers (reg, town_tag) VALUES ($1, $2)', [regNumber, townID.rows[0].id]);
+
+              return true;
+            }
+            return false;
           }
         }
       }
-      return false;
-    }
-  }
-
-  function filterRegBy(town) {
-  //  var allReg = pool.query('select reg from regNum')
-    var regNumbers = Object.keys(regMap);
-
-    if (town === 'All') {
-      return regNumbers
     }
 
-    var filteredList = regNumbers.filter(function(regNum, storedReg) {
+      async function filterRegBy(town) {
+        var regNumbers = await pool.query('select reg from reg_numbers')
+        var list = []
+        if (town === 'All') {
+          return regNumbers.rows
+        }
 
-      return regNum.startsWith(town)
-    });
+        var filteredList = regNumbers.rows.filter(function(regNum) {
 
-    //location.hash = town;
+          return regNum.reg.startsWith(town)
+        });
 
-    return filteredList;
+        return filteredList;
 
-  }
+      }
 
-  function registrationMap(storage) {
-    return Object.keys(regMap);
-  }
+      async function registrationMap() {
+        var result = await pool.query('select reg from reg_numbers')
+        return result.rows
+        //return Object.keys(regMap);
+      }
+
+      async function deleteRegNumbers() {
+        var result = await pool.query('delete from reg_numbers')
+        return result.rows
+      }
+
+      async function deleteTownsData() {
+        var result = await pool.query('delete from reg_numbers')
+        return result.rows
+      }
 
 
-
-  return {
-    mapReg: registrationMap,
-    addRegistration: addRegistrationNumbers,
-    filterReg: filterRegBy,
-  }
-}
+      return {
+        mapReg: registrationMap,
+        addRegistration: addRegistrationNumbers,
+        filterReg: filterRegBy,
+        deleteReg: deleteRegNumbers,
+        deleteTowns: deleteTownsData
+      }
+    }

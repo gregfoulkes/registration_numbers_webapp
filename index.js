@@ -43,15 +43,6 @@ app.listen(PORT, function() {
 
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
-  // helpers:{
-  //   'message': function(){
-  //     if(this.greet_counter == 1){
-  //       return 'Hello, ' + this.first_name + ' has been greeted once'
-  //     }else{
-  //       return 'Hello, ' + this.first_name + ' has been greeted ' + this.greet_counter + ' times';
-  //     }
-  //   }
-  // }
 
 }));
 
@@ -59,7 +50,7 @@ app.set('view engine', 'handlebars');
 
 //call factory function
 const Reg = require('./registration_numbers.js');
-const registration = Reg()
+const registration = Reg(pool)
 
 //get/post
 
@@ -67,22 +58,41 @@ app.get('/', async function(req, res) {
   res.render('registration');
 });
 
-app.post('/reg', function(req, res){
+app.post('/reg', async function(req, res, next){
 
-  registration.addRegistration(req.body.regInput)
-  console.log(registration.mapReg())
+  try {
 
-  res.render('registration',{regPlate:registration.mapReg()} )
+    await registration.addRegistration(req.body.regInput)
+    let regPlate = await registration.mapReg()
+
+    res.render('registration',{regPlate} )
+
+  } catch (err) {
+    return next()
+  }
 
 });
 
-app.get('/filter/:tag', function(req, res){
-  let filteredReg = registration.filterReg(req.params.tag);
-  console.log(filteredReg)
-  res.render('registration', {regPlate:filteredReg})
+app.get('/filter/:tag', async function(req, res, next){
+
+  try {
+    let filteredReg = await registration.filterReg(req.params.tag);
+    console.log(filteredReg)
+    res.render('registration', {regPlate:filteredReg})
+
+  } catch (err) {
+     return next()
+  }
+
 });
 
-// app.get('/filter/:tag', function(req, res){
-//   let filteredReg = req.params.tag;
-//   res.redirect('/filter/' +filteredReg)
-// });
+app.get('/reset', async function(req, res, next){
+
+  try {
+await registration.deleteTowns()
+await registration.deleteRegNumbers()
+  } catch (err) {
+    return next()
+  }
+res.redirect('/')
+});
