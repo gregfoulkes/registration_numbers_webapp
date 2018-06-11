@@ -11,10 +11,10 @@ module.exports = function(pool) {
 
     async function addRegistrationNumbers(regNumber) {
 
-      var regList = ['CA ', 'CY ', 'CL ', 'CAW ', 'CJ']
+      var regList = ['CA', 'CY ', 'CL ', 'CAW ', 'CJ']
 
-      let townTag = regNumber.substring(0, 2).trim();
-
+      let townTag = regNumber.substring(0, 3).trim();
+  //    console.log(townTag)
       if (regNumber != '') {
 
         for (var i = 0; i < regList.length; i++) {
@@ -37,7 +37,7 @@ module.exports = function(pool) {
     }
 
       async function filterRegBy(town) {
-
+console.log(town)
         var regNumbers = await pool.query('select reg from reg_numbers')
 
         if (town === 'All') {
@@ -56,7 +56,6 @@ module.exports = function(pool) {
       async function registrationMap() {
         var result = await pool.query('select reg from reg_numbers')
         return result.rows
-        //return Object.keys(regMap);
       }
 
       async function deleteRegNumbers() {
@@ -64,12 +63,23 @@ module.exports = function(pool) {
         return result.rows
       }
 
+      async function createDropDown(tag){
+        let storedTowns = await pool.query('select town_name town from towns');
+        for(i = 0; i < storedTowns.rowCount; i++){
+          let current = storedTowns[i]
+          if(current.town_tag == tag){
+            current.selected = true;
+          }
+        }
+        return storedTowns.rows;
+      }
+
 
       return {
         mapReg: registrationMap,
         addRegistration: addRegistrationNumbers,
         filterReg: filterRegBy,
+        dropDown: createDropDown,
         deleteReg: deleteRegNumbers,
-      //  deleteTowns: deleteTownsData
       }
     }

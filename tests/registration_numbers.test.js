@@ -98,7 +98,7 @@ describe('Filter registration numbers', function() {
     //var storedReg = registration.mapReg()
 
 
-    assert.deepEqual(await registration.filterReg('CA '), [{reg:'CA 1234'}, {reg:'CA 4321'}])
+    assert.deepEqual(await registration.filterReg('CA'), [{reg:'CA 1234'}, {reg:'CA 4321'}])
 
   });
 
