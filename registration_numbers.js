@@ -12,10 +12,12 @@ module.exports = function(pool) {
 
     async function addRegistrationNumbers(regNumber) {
 
+      var regEx = []
+
       var regList = ['CA', 'CY ', 'CL ', 'CAW ', 'CJ']
 
       let townTag = regNumber.substring(0, 3).trim();
-  //    console.log(townTag)
+
       if (regNumber != '') {
 
         for (var i = 0; i < regList.length; i++) {
@@ -37,32 +39,13 @@ module.exports = function(pool) {
       }
     }
 
-      // async function filterRegBy(town) {
-      //
-      //   var regNumbers = await pool.query('select reg from reg_numbers')
-      //
-      //   if (town === 'All') {
-      //     return regNumbers.rows
-      //   }
-      //
-      //   var filteredList = regNumbers.rows.filter(function(regNum) {
-      //
-      //     return regNum.reg.startsWith(town)
-      //   });
-      //
-      //   return filteredList;
-      //
-      // }
-    //
-
     async function filterRegBy(townValue){
 
       let townFilter = await pool.query('select reg,town_tag from reg_numbers')
-    //  console.log(townFilter.rows)
 
       if(townValue != 'All'){
         let tagFound = await pool.query('select id from towns where town = $1', [townValue])
-    //  console.log(tagFound.rows)
+
         let filterdTown =  townFilter.rows.filter(found => found.town_tag == tagFound.rows[0].id)
        console.log(filterdTown)
         return filterdTown
@@ -89,12 +72,10 @@ module.exports = function(pool) {
 
         for(i = 0; i < storedTowns.rowCount; i++){
           let current = storedTowns[i]
-         //console.log(current)
           if(current.town === tag){
             current.selected = true;
           }
         }
-      //  console.log(storedTowns.rows)
         return storedTowns.rows;
       }
 

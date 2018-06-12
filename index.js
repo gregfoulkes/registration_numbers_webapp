@@ -23,7 +23,7 @@ app.use(bodyParser.json())
 app.use(flash());
 
 app.use(session({
-  secret : "<add a secret string here>",
+  secret: "<add a secret string here>",
   resave: false,
   saveUninitialized: true
 }));
@@ -58,8 +58,8 @@ app.listen(PORT, function() {
 app.engine('handlebars', exphbs({
   defaultLayout: 'main',
   helpers: {
-    selectedTag: function(){
-      if(this.selected){
+    selectedTag: function() {
+      if (this.selected) {
         return 'selected'
       }
     }
@@ -77,25 +77,35 @@ const registration = Reg(pool)
 //get/post
 
 app.get('/', async function(req, res) {
-  req.flash('info', 'Welcome');
 
-  res.render('registration');
+  let regPlate = await registration.mapReg()
+  req.flash('info', 'Enter a Registration Number');
+
+  res.render('registration', {
+    regPlate
+  })
+
 });
 
 app.post('/reg', async function(req, res, next) {
 
   try {
+    
+    if(await registration.addRegistration(req.body.regInput)){
+      //  console.log(regPlate)
+      req.flash('info', 'Succesfully added registration');
 
-    await registration.addRegistration(req.body.regInput)
-    let regPlate = await registration.mapReg()
-    console.log(regPlate)
-    res.render('registration', {
-      regPlate
-    })
 
-  } catch (err) {
-    return next()
+    }else{
+    req.flash('info', 'Please Enter A valid Registration');
+
+    }
+    res.render('registration', {regPlate: await registration.mapReg()})
   }
+    catch (err) {
+     return next()
+   }
+
 
 });
 
@@ -104,7 +114,8 @@ app.get('/filter/:tag', async function(req, res, next) {
   try {
     let filteredReg = await registration.filterReg(req.params.tag);
     //let dropDown = await registration.dropDown(req.params.tag)
-  //  console.log(filteredReg)
+    //  console.log(filteredReg)
+
     res.render('registration', {
       regPlate: filteredReg
     })
@@ -118,9 +129,10 @@ app.get('/filter/:tag', async function(req, res, next) {
 app.get('/reset', async function(req, res, next) {
 
   try {
-    await registration.deleteRegNumbers()
+    await registration.deleteReg()
+    res.redirect('/')
+
   } catch (err) {
     return next()
   }
-  res.redirect('/')
 });

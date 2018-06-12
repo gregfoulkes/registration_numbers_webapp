@@ -12,7 +12,7 @@
     <h6>Enter a Registration Number:</h6>
     {{#if messages.info}}
     <div class="alertTwo">
-        <h1> {{messages.info}}</h1>
+        <h3> {{messages.info}}</h3>
     </div>
     {{/if}}
 
@@ -31,7 +31,7 @@
         <option class="regSelectTwo"  name='town' value="CAW">George</option>
       </select>
 
-    <input class='regTextandNumTwo' name="regInput" value="">
+    <input class='regTextandNumTwo' name="regInput" value="" pattern='[A-Z]{2,3}\s\d{3}\W\d{3}'>
 
     <button class="addRegButtonTwo" type="submit" name="button">Add</button>
   </form>
@@ -52,7 +52,7 @@
 
   </div>
   <div class="clearButtonTwo center">
-    <a href="/reset"><button class="clearRegButton" type="button" name="button">Clear</button></a>
+    <a href="/reset" ><button class="clearRegButton" type="button" name="button">Clear</button></a>
 
   </div>
 
