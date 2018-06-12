@@ -1,49 +1,63 @@
 
-  <div class="handleBars">
-    <div class="heading center ">
-      <h4>Registration Numbers</h4>
-      <h4>This Widget Uses Handlebars</h4>
-
-    </div>
-
-    <div class="regNumInput center">
-      <h6>Enter a Registration Number:</h6>
-
-      <div class="alertTwo">
-
+  <div class="container">
+    <div class="row">
+      <div class="heading center ">
+        <h4>Registration Numbers</h4>
+        <h4>This Widget Uses Handlebars</h4>
       </div>
-      <form class="" action="/reg" method="post">
-
-      <select onchange="filterBy(this)" type='submit' class="regSelectTwo" name="regSelect">
-          <option class="regSelectTwo "  name='town'>Select a Town:</option>
-          <option class="regSelectTwo"  name='town' value="All">All</option>
-          <option class="regSelectTwo"  name='town' value="CA ">Cape Town</option>
-          <option class="regSelectTwo"  name='town' value="CY ">Bellville</option>
-          <option class="regSelectTwo"  name='town' value="CL ">Stellenbosch</option>
-          <option class="regSelectTwo"  name='town' value="CAW">George</option>
-        </select>
-
-      <input class='regTextandNumTwo' name="regInput" value="">
-
-      <button class="addRegButtonTwo" type="submit" name="button">Add</button>
-
     </div>
+
+<div class="row">
+  <div class="regNumInput center">
+    <h6>Enter a Registration Number:</h6>
+    {{#if messages.info}}
+    <div class="alertTwo">
+        <h1> {{messages.info}}</h1>
+    </div>
+    {{/if}}
+
+    <form class="" action="/reg" method="post">
+
+    <select onchange="filterBy(this)" type='submit' class="regSelectTwo" name="regSelect">
+        <option class="regSelectTwo "  name='town'>Select a Town:</option>
+        <option class="regSelectTwo"  name='town' value="All">All</option>
+
+        <!-- {{#each dropDown}} -->
+        <option value="{{town}}" {{selectedTag}}>{{town_name}}</option>
+        <!-- {{/each}} -->
+        <option class="regSelectTwo"  name='town' value="CA ">Cape Town</option>
+        <option class="regSelectTwo"  name='town' value="CY ">Bellville</option>
+        <option class="regSelectTwo"  name='town' value="CL ">Stellenbosch</option>
+        <option class="regSelectTwo"  name='town' value="CAW">George</option>
+      </select>
+
+    <input class='regTextandNumTwo' name="regInput" value="">
+
+    <button class="addRegButtonTwo" type="submit" name="button">Add</button>
   </form>
 
-    <div class="displayRegClass center">
+  </div>
 
-      {{#each regPlate}}
-      <li class='displayRegClassList '>
-        {{reg}}
-        {{filteredReg}}
-      </li>
-      {{/each}}
+</div>
 
-    </div>
-    <div class="clearButtonTwo center">
-      <button href='/reset' class="clearRegButton" type="button" name="button">Clear</button>
+<div class="row center">
+  <div class="displayRegClass">
 
-    </div>
+    {{#each regPlate}}
+    <li class=''>
+      {{reg}}
+      <!-- {{filteredReg}} -->
+    </li>
+    {{/each}}
+
+  </div>
+  <div class="clearButtonTwo center">
+    <a href="/reset"><button class="clearRegButton" type="button" name="button">Clear</button></a>
+
+  </div>
+
+</div>
+
 
   </div>
 

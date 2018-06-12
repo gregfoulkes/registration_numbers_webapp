@@ -98,7 +98,7 @@ describe('Filter registration numbers', function() {
     //var storedReg = registration.mapReg()
 
 
-    assert.deepEqual(await registration.filterReg('CA'), [{reg:'CA 1234'}, {reg:'CA 4321'}])
+    assert.deepEqual(await registration.filterReg('CA'), [{reg:'CA 1234', town_tag:1}, {reg:'CA 4321',town_tag:1}])
 
   });
 
@@ -114,7 +114,7 @@ describe('Filter registration numbers', function() {
 
     //var storedReg = registration.mapReg()
 
-    assert.deepEqual(await registration.filterReg('CY '), [{reg:'CY 1234'}])
+    assert.deepEqual(await registration.filterReg('CY'), [{reg:'CY 1234', town_tag:2}])
 
   });
 
@@ -128,7 +128,7 @@ describe('Filter registration numbers', function() {
 
     //var storedReg = registration.mapReg()
 
-    assert.deepEqual(await registration.filterReg('CAW '), [{reg:'CAW 1234'}])
+    assert.deepEqual(await registration.filterReg('CAW'), [{reg:'CAW 1234', town_tag:5}])
 
   });
 
@@ -142,7 +142,7 @@ describe('Filter registration numbers', function() {
 
     //var storedReg = registration.mapReg()
 
-    assert.deepEqual(await registration.filterReg('CL '), [{reg:'CL 1234'}])
+    assert.deepEqual(await registration.filterReg('CL'), [{reg:'CL 1234', town_tag:3}])
 
   });
 
@@ -156,14 +156,33 @@ describe('Filter registration numbers', function() {
 
     //var storedReg = registration.mapReg()
 
-    assert.deepEqual(await registration.filterReg('All'), [{reg:'CA 1234'}, {reg:'CY 1234'},{reg: 'CL 1234'}])
+    assert.deepEqual(await registration.filterReg('All'), [{reg:'CA 1234', town_tag:1}, {reg:'CY 1234', town_tag:2},{reg: 'CL 1234',town_tag:3}])
 
   });
+
+
+});
+
+describe('CreateDropDown function', async function(){
+
+  beforeEach(async function() {
+    await pool.query("delete from reg_numbers");
+  });
+
+  it('Should return all towns', async function(){
+
+    var registration = Reg(pool);
+
+    await registration.addRegistration('CA 1234');
+
+assert.equal(await registration.dropDown(), {town: 'CA', town_name: 'Cape Town'})
+
+  })
 
   after(async function() {
     await pool.end();
   });
-});
+})
 
 // describe('Map registration numbers', function() {
 //   it('Should Map registration numbers from CA', function() {

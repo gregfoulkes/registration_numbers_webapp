@@ -9,6 +9,7 @@ module.exports = function(pool) {
       }
     }
 
+
     async function addRegistrationNumbers(regNumber) {
 
       var regList = ['CA', 'CY ', 'CL ', 'CAW ', 'CJ']
@@ -36,22 +37,40 @@ module.exports = function(pool) {
       }
     }
 
-      async function filterRegBy(town) {
-console.log(town)
-        var regNumbers = await pool.query('select reg from reg_numbers')
+      // async function filterRegBy(town) {
+      //
+      //   var regNumbers = await pool.query('select reg from reg_numbers')
+      //
+      //   if (town === 'All') {
+      //     return regNumbers.rows
+      //   }
+      //
+      //   var filteredList = regNumbers.rows.filter(function(regNum) {
+      //
+      //     return regNum.reg.startsWith(town)
+      //   });
+      //
+      //   return filteredList;
+      //
+      // }
+    //
 
-        if (town === 'All') {
-          return regNumbers.rows
-        }
+    async function filterRegBy(townValue){
 
-        var filteredList = regNumbers.rows.filter(function(regNum) {
+      let townFilter = await pool.query('select reg,town_tag from reg_numbers')
+    //  console.log(townFilter.rows)
 
-          return regNum.reg.startsWith(town)
-        });
-
-        return filteredList;
-
+      if(townValue != 'All'){
+        let tagFound = await pool.query('select id from towns where town = $1', [townValue])
+    //  console.log(tagFound.rows)
+        let filterdTown =  townFilter.rows.filter(found => found.town_tag == tagFound.rows[0].id)
+       console.log(filterdTown)
+        return filterdTown
       }
+      return townFilter.rows
+    }
+
+
 
       async function registrationMap() {
         var result = await pool.query('select reg from reg_numbers')
@@ -60,17 +79,22 @@ console.log(town)
 
       async function deleteRegNumbers() {
         var result = await pool.query('delete from reg_numbers')
+        console.log(result.rows)
         return result.rows
       }
 
       async function createDropDown(tag){
-        let storedTowns = await pool.query('select town_name town from towns');
+        let storedTowns = await pool.query('select town_name, town from towns');
+        console.log(storedTowns)
+
         for(i = 0; i < storedTowns.rowCount; i++){
           let current = storedTowns[i]
-          if(current.town_tag == tag){
+         //console.log(current)
+          if(current.town === tag){
             current.selected = true;
           }
         }
+      //  console.log(storedTowns.rows)
         return storedTowns.rows;
       }
 
