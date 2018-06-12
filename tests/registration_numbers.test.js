@@ -175,7 +175,7 @@ describe('CreateDropDown function', async function(){
 
     await registration.addRegistration('CA 1234');
 
-assert.equal(await registration.dropDown(), {town: 'CA', town_name: 'Cape Town'})
+assert.equal(await registration.dropDown('CA'), { town_name: 'Cape Town',town: 'CA'})
 
   })
 

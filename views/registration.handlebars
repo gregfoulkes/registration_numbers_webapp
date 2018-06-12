@@ -10,9 +10,15 @@
 <div class="row">
   <div class="regNumInput center">
     <h6>Enter a Registration Number:</h6>
-    {{#if messages.info}}
-    <div class="alertTwo">
-        <h3> {{messages.info}}</h3>
+    {{#if messages.invalid}}
+    <div class="alertInvalid">
+        <h3> {{messages.invalid}}</h3>
+    </div>
+    {{/if}}
+
+    {{#if messages.valid}}
+    <div class="alertValid">
+        <h3> {{messages.valid}}</h3>
     </div>
     {{/if}}
 
@@ -21,14 +27,16 @@
     <select onchange="filterBy(this)" type='submit' class="regSelectTwo" name="regSelect">
         <option class="regSelectTwo "  name='town'>Select a Town:</option>
         <option class="regSelectTwo"  name='town' value="All">All</option>
-
-        <!-- {{#each dropDown}} -->
-        <option value="{{town}}" {{selectedTag}}>{{town_name}}</option>
-        <!-- {{/each}} -->
         <option class="regSelectTwo"  name='town' value="CA ">Cape Town</option>
         <option class="regSelectTwo"  name='town' value="CY ">Bellville</option>
         <option class="regSelectTwo"  name='town' value="CL ">Stellenbosch</option>
         <option class="regSelectTwo"  name='town' value="CAW">George</option>
+
+        {{#each dropDown}}
+        <option value="{{town}}" {{selectedTag}}>{{town_name}}</option>
+        {{/each}}
+
+
       </select>
 
     <input class='regTextandNumTwo' name="regInput" value="" pattern='[A-Z]{2,3}\s\d{3}\W\d{3}'>

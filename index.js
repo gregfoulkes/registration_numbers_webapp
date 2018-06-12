@@ -79,7 +79,7 @@ const registration = Reg(pool)
 app.get('/', async function(req, res) {
 
   let regPlate = await registration.mapReg()
-  req.flash('info', 'Enter a Registration Number');
+  //req.flash('info', 'Enter a Registration Number');
 
   res.render('registration', {
     regPlate
@@ -90,14 +90,14 @@ app.get('/', async function(req, res) {
 app.post('/reg', async function(req, res, next) {
 
   try {
-    
+
     if(await registration.addRegistration(req.body.regInput)){
       //  console.log(regPlate)
-      req.flash('info', 'Succesfully added registration');
+    req.flash('valid', 'Succesfully added registration');
 
 
     }else{
-    req.flash('info', 'Please Enter A valid Registration');
+    req.flash('invalid', 'Please Enter A valid Registration');
 
     }
     res.render('registration', {regPlate: await registration.mapReg()})
@@ -105,7 +105,6 @@ app.post('/reg', async function(req, res, next) {
     catch (err) {
      return next()
    }
-
 
 });
 

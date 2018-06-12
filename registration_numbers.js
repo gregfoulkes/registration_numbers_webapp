@@ -72,7 +72,7 @@ module.exports = function(pool) {
 
         for(i = 0; i < storedTowns.rowCount; i++){
           let current = storedTowns[i]
-          if(current.town === tag){
+          if(current.town == tag){
             current.selected = true;
           }
         }

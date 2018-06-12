@@ -138,8 +138,14 @@ float: left;
   margin: 10px;
 }
 
-.alertTwo {
+.alertInvalid {
   color: orange;
+  width: 100%;
+  margin: 10px;
+}
+
+.alertValid {
+  color: green;
   width: 100%;
   margin: 10px;
 }
