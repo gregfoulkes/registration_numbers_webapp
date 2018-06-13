@@ -1,5 +1,5 @@
 language: node_js
- env: 'postgresql://travis:travis@localhost:5432/reg_num'
+ env: 'postgresql://coder:1234@localhost:5432/reg_num'
 
 node_js:
   - "8.9.4"
@@ -16,11 +16,19 @@ env:
   global:
     - PGPORT=5433
 
-  before_script:
-  - psql -c 'create database travis;' -U postgres
-  - psql -c 'create database reg_num;' -U postgres
-  - psql -c "ALTER USER travis WITH PASSWORD 'travis';
-  - psql -c '\i registration_table.sql;' -U postgres
+    postgres:
+  adapter: postgresql
+  database: reg_num
+  username: postgres
+before_script:
+  - "psql -c 'create database reg_num;' -U postgres"
+  - "rake db:migrate"
+
+  # before_script:
+  # - psql -c 'create database travis;' -U postgres
+  # - psql -c 'create database reg_num;' -U postgres
+  # - psql -c "ALTER USER travis WITH PASSWORD 'travis';
+  # - psql -c '\i registration_table.sql;' -U postgres
   # - node ./registration_numbers.js -d postgresql://coder:1234@localhost:5432/reg_num
 
 # language: node_js
