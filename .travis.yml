@@ -1,6 +1,6 @@
 language: node_js
-env:
-     'postgresql://coder:1234@localhost:5432/reg_num'
+# env: 'postgresql://coder:1234@localhost:5432/reg_num'
+
 node_js:
   - "8.9.4"
 
@@ -15,9 +15,6 @@ addons:
 env:
   global:
     - PGPORT=5433
-before_script:
-  - psql -c "ALTER USER travis WITH PASSWORD 'travis';"
-  - psql -c '\i registration_table.sql;' -U postgres
 
 
 # language: node_js
