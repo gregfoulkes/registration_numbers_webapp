@@ -112,11 +112,12 @@ app.get('/filter/:tag', async function(req, res, next) {
 
   try {
     let filteredReg = await registration.filterReg(req.params.tag);
-    //let dropDown = await registration.dropDown(req.params.tag)
+    let dropDown = await registration.dropDown(req.params.tag)
     //  console.log(filteredReg)
 
     res.render('registration', {
-      regPlate: filteredReg
+      regPlate: filteredReg,
+      dropDown:dropDown
     })
 
   } catch (err) {

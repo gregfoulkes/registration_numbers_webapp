@@ -12,7 +12,7 @@ module.exports = function(pool) {
 
     async function addRegistrationNumbers(regNumber) {
 
-      var regEx = []
+      //var regEx = []
 
       var regList = ['CA', 'CY ', 'CL ', 'CAW ', 'CJ']
 
@@ -47,7 +47,7 @@ module.exports = function(pool) {
         let tagFound = await pool.query('select id from towns where town = $1', [townValue])
 
         let filterdTown =  townFilter.rows.filter(found => found.town_tag == tagFound.rows[0].id)
-       console.log(filterdTown)
+       //console.log(filterdTown)
         return filterdTown
       }
       return townFilter.rows
@@ -62,16 +62,16 @@ module.exports = function(pool) {
 
       async function deleteRegNumbers() {
         var result = await pool.query('delete from reg_numbers')
-        console.log(result.rows)
+      //  console.log(result.rows)
         return result.rows
       }
 
       async function createDropDown(tag){
         let storedTowns = await pool.query('select town_name, town from towns');
-        console.log(storedTowns)
+        //console.log(storedTowns)
 
         for(i = 0; i < storedTowns.rowCount; i++){
-          let current = storedTowns[i]
+          let current = storedTowns.rows[i]
           if(current.town == tag){
             current.selected = true;
           }

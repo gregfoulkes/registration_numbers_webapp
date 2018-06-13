@@ -174,9 +174,13 @@ describe('CreateDropDown function', async function(){
     var registration = Reg(pool);
 
     await registration.addRegistration('CA 1234');
-
-assert.equal(await registration.dropDown('CA'), { town_name: 'Cape Town',town: 'CA'})
-
+console.log(await registration.dropDown('CA'))
+assert.deepEqual(await registration.dropDown('CA'), [
+  { town_name: 'Cape Town', town: 'CA', selected: true },
+  { town_name: 'Bellville', town: 'CY' },
+  { town_name: 'Stellenbosch', town: 'CL' },
+  { town_name: 'Paarl', town: 'CJ' },
+  { town_name: 'George', town: 'CAW' } ])
   })
 
   after(async function() {
