@@ -4,17 +4,17 @@ language: node_js
 node_js:
   - "8.9.4"
 
-# sudo: false
-# dist: trusty
-# addons:
-#   apt:
-#     packages:
-#       - postgresql-10
-#       - postgresql-client-10
-#   postgresql: 10
-# env:
-#   global:
-#     - PGPORT=5433
+sudo: false
+dist: trusty
+addons:
+  apt:
+    packages:
+      - postgresql-9.5
+      - postgresql-client-9.5
+  postgresql: 9.5
+env:
+  global:
+    - PGPORT=5433
 
 #     postgres:
 #   adapter: postgresql
