@@ -16,13 +16,13 @@ node_js:
 #   global:
 #     - PGPORT=5433
 
-    postgres:
-  adapter: postgresql
-  database: reg_num
-  username: postgres
-before_script:
-  - "psql -c 'create database reg_num;' -U postgres"
-  - "rake db:migrate"
+#     postgres:
+#   adapter: postgresql
+#   database: reg_num
+#   username: postgres
+# before_script:
+#   - "psql -c 'create database reg_num;' -U postgres"
+#   - "rake db:migrate"
 
   # before_script:
   # - psql -c 'create database travis;' -U postgres
