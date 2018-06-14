@@ -1,7 +1,7 @@
 language: node_js
 
 env:
-     - DB=postgresql://postgres@localhost:5432/reg_num
+     - DB=postgresql://postgres@localhost:5433/reg_num
 node_js:
         - "8.9.4"
 
@@ -18,7 +18,7 @@ addons:
 
 
    Name : DATABASE_URL
-   value : //postgres@localhost:5432/reg_num
+   value : //postgres@localhost:5433/reg_num
 
 # language: node_js
  # env: - DB=postgresql://postgres:postgres@localhost:5433/reg_num
