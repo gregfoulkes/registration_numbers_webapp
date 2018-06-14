@@ -6,6 +6,8 @@ node_js:
         - "8.9.4"
 
 before_script:
+  - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
+  - sudo service postgresql restart
   - psql -c 'create database  reg_num;' -U postgres
   - psql -U postgres -d registrations -a -f registration_table.sql
 
@@ -17,8 +19,8 @@ addons:
 
 
 
-   Name : DATABASE_URL
-   value : //postgres@localhost:5433/reg_num
+   # Name : DATABASE_URL
+   # value : //postgres@localhost:5433/reg_num
 
 # language: node_js
  # env: - DB=postgresql://postgres:postgres@localhost:5433/reg_num
@@ -27,8 +29,7 @@ addons:
 #   - "8.9.4"
 
 # before_script:
-#     - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
-#     - sudo service postgresql restart
+#
 #     - sleep 1
 
     # - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';
