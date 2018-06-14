@@ -1,5 +1,5 @@
 language: node_js
- env: -DB=postgresql://postgres@localhost:5432/reg_num
+ env: - DB=postgresql://postgres@localhost:5432/reg_num
 
 node_js:
   - "8.9.4"
@@ -16,6 +16,10 @@ node_js:
 #  global:
 #    - PGPORT=5433
 
+before_script:
+  - psql -c 'create database reg_num;' -U postgres
+  -psql -U postgres -d reg_num -a -f registration_table.sql
+
 addons:
   apt:
     -postgressql-server-dev-9.2
@@ -24,9 +28,6 @@ addons:
 # services:
 #   - postgresql
 
-before_script:
-  - psql -c 'create database reg_num;' -U postgres
-  -psql -U postgres -d reg_num -a -f registration_table.sql
 
 
 
