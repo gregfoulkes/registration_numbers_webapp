@@ -77,12 +77,14 @@ const registration = Reg(pool)
 //get/post
 
 app.get('/', async function(req, res) {
+  let filteredReg = await registration.filterReg(req.params.tag);
 
   let regPlate = await registration.mapReg()
   //req.flash('info', 'Enter a Registration Number');
 
   res.render('registration', {
-    regPlate
+    regPlate:regplate,
+    dropDown:filteredReg
   })
 
 });
