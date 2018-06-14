@@ -1,23 +1,31 @@
 language: node_js
- env: 'postgresql://coder@localhost:5432/reg_num'
+ env: 'postgresql://postgres@localhost:5432/reg_num'
 
 node_js:
   - "8.9.4"
 
-sudo: false
-dist: trusty
-addons:
-  apt:
-    packages:
-      - postgresql-9.5
-      - postgresql-client-9.5
-  postgresql: '9.5'
-env:
-  global:
-    - PGPORT=5433
+# sudo: false
+# dist: trusty
+# addons:
+#  apt:
+#    packages:
+#      - postgresql-9.5
+#      - postgresql-client-9.5
+#  postgresql: '9.5'
+# env:
+#  global:
+#    - PGPORT=5433
 
-    before_script:
+addons:
+  postgresql: "9.5"
+
+services:
+  - postgresql
+
+before_script:
   - psql -c 'create database reg_num;' -U postgres
+
+
 
 #     postgres:
 #   adapter: postgresql
