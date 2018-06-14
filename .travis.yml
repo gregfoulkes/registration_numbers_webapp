@@ -10,7 +10,7 @@ before_script:
 - sleep 1
     - psql -c 'create database reg_num;' -U postgres
     -psql -U postgres -d reg_num -a -f registration_table.sql
-    - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';
+    # - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';
 
 
   addons:
