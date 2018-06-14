@@ -1,5 +1,5 @@
 language: node_js
- env: - DB=postgresql://postgres@localhost:5432/reg_num
+ env: - DB=postgresql://postgres:postgres@localhost:5432/reg_num
 
 node_js:
   - "8.9.4"
@@ -7,6 +7,8 @@ node_js:
 before_script:
     - psql -c 'create database reg_num;' -U postgres
     -psql -U postgres -d reg_num -a -f registration_table.sql
+    - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';
+
 
   addons:
     apt:
@@ -45,7 +47,6 @@ before_script:
   # before_script:
   # - psql -c 'create database travis;' -U postgres
   # - psql -c 'create database reg_num;' -U postgres
-  # - psql -c "ALTER USER travis WITH PASSWORD 'travis';
   # - psql -c '\i registration_table.sql;' -U postgres
   # - node ./registration_numbers.js -d postgresql://coder:1234@localhost:5432/reg_num
 
