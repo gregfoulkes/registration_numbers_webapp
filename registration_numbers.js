@@ -68,7 +68,7 @@ module.exports = function(pool) {
 
       async function createDropDown(tag){
         let storedTowns = await pool.query('select town_name, town from towns');
-        console.log(storedTowns)
+      //  console.log(storedTowns)
 
         for(i = 0; i < storedTowns.rowCount; i++){
           let current = storedTowns.rows[i]
