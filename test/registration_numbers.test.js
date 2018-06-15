@@ -11,7 +11,7 @@ if(process.env.DATABASE_URL){
   useSSL = true;
 }
 
-const connectionString = process.env.DATABASE_URL 
+const connectionString = process.env.DATABASE_URL || 'postgresql://coder:1234@localhost:5432/reg_num'
 
 const pool = new Pool({
   connectionString,
@@ -174,9 +174,22 @@ describe('CreateDropDown function', async function(){
     var registration = Reg(pool);
 
     await registration.addRegistration('CA 1234');
-console.log(await registration.dropDown('CA'))
-assert.deepEqual(await registration.dropDown('CA'), [
+    assert.deepEqual(await registration.dropDown('CA'), [
   { town_name: 'Cape Town', town: 'CA', selected: true },
+  { town_name: 'Bellville', town: 'CY' },
+  { town_name: 'Stellenbosch', town: 'CL' },
+  { town_name: 'Paarl', town: 'CJ' },
+  { town_name: 'George', town: 'CAW' } ])
+  })
+
+  it('Should return all towns', async function(){
+
+    var registration = Reg(pool);
+
+    await registration.addRegistration('CA 1234');
+    console.log(await registration.dropDown())
+    assert.deepEqual(await registration.dropDown(), [
+  { town_name: 'Cape Town', town: 'CA'},
   { town_name: 'Bellville', town: 'CY' },
   { town_name: 'Stellenbosch', town: 'CL' },
   { town_name: 'Paarl', town: 'CJ' },
@@ -186,6 +199,7 @@ assert.deepEqual(await registration.dropDown('CA'), [
   after(async function() {
     await pool.end();
   });
+
 })
 
 // describe('Map registration numbers', function() {
